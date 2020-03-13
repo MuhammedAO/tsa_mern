@@ -1,9 +1,13 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable react/jsx-no-comment-textnodes */
+
 /* eslint-disable no-undef */
 import React,{useEffect, useState} from 'react'
 // import { FaCode } from "react-icons/fa";
 import {API_URL, API_KEY, IMAGE_URL} from '../../Config'
 import {Typography, Row} from 'antd'
 import MainImage from './Sections/MainImage'
+import GridCard from './Sections/GridCard'
 const {Title} = Typography 
 
 function LandingPage() {
@@ -40,8 +44,16 @@ function LandingPage() {
        <hr/>
    
        {/* Grid Card*/}
-       <Row gutter={[16,16]}>
-        
+       <Row gutter={[16, 16]}>
+        {Movies && Movies.map((movie, index) => (
+          // eslint-disable-next-line no-unused-expressions
+          <React.Fragment key={index}>
+          <GridCard 
+          image={movie.poster_path && `${IMAGE_URL}w500${movie.poster_path}`}
+          movieId={movie.id}
+          />
+          </React.Fragment>
+        ))}
        </Row>
 
        {/* Load More Button*/}
