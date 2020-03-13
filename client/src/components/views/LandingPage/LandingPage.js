@@ -1,5 +1,5 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
-import React,{useEffect} from 'react'
+/* eslint-disable no-undef */
+import React,{useEffect, useState} from 'react'
 // import { FaCode } from "react-icons/fa";
 import {API_URL, API_KEY} from '../../Config'
 import {Typography, Row} from 'antd'
@@ -7,12 +7,15 @@ const {Title} = Typography
 
 function LandingPage() {
 
+  const [Movies, setMovies] = useState([])
+
     useEffect(() => {
 
            fetch(`${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`)
            .then(res => res.json())
            .then(res => {
                console.log(res)
+               setMovies(res.results)
            })
            
     },[])
@@ -40,11 +43,11 @@ function LandingPage() {
        {/* Body*/}
        <div style={{width:'85%', margin:'1rem auto'}}>
        <Title level={2}> Movies By latest</Title>
-       <br/>
+       <hr/>
    
        {/* Grid Card*/}
        <Row gutter={[16,16]}>
-
+        
        </Row>
 
        {/* Load More Button*/}
