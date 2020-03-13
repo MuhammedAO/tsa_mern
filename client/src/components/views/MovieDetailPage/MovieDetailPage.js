@@ -9,6 +9,8 @@ function MovieDetailPage(props) {
     const [Movie, setMovie] = useState([])
 
     const [crews, setCrew] = useState([])
+
+    const [actorToggle, setActorToggle] = useState(false)
    
     useEffect(() => {
         
@@ -33,6 +35,10 @@ function MovieDetailPage(props) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
+
+    const handleClick = () => {
+     setActorToggle(!actorToggle)
+    }
     
     return (
         <div>
@@ -67,24 +73,28 @@ function MovieDetailPage(props) {
      </Descriptions>
 
      <div style={{display:'flex', justifyContent:'center', margin:'2rem'}}>
-     <Button>Toggle Actors </Button>
+     <Button onClick={handleClick}>Toggle Actors </Button>
      </div>
 
       {/* Grid Card for crews*/}
-      <Row gutter={[16, 16]}>
-      {crews && crews.map((crew, index) => (
-        // eslint-disable-next-line no-unused-expressions
-        <React.Fragment key={index}>
-        {crew.profile_path &&
-        <GridCard 
-        actor
-        image={`${IMAGE_URL}w500${crew.profile_path}`}
-        />
-        }
-       
-        </React.Fragment>
-      ))}
-     </Row>
+
+      {actorToggle &&
+        <Row gutter={[16, 16]}>
+        {crews && crews.map((crew, index) => (
+          // eslint-disable-next-line no-unused-expressions
+          <React.Fragment key={index}>
+          {crew.profile_path &&
+          <GridCard 
+          actor
+          image={`${IMAGE_URL}w500${crew.profile_path}`}
+          />
+          }
+         
+          </React.Fragment>
+        ))}
+       </Row>
+    }
+      
       </div>
     </div>
     )
