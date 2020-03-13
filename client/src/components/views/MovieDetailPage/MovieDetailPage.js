@@ -1,11 +1,14 @@
 import React,{useEffect, useState} from 'react'
 import {API_URL, API_KEY, IMAGE_URL} from '../../Config'
 import MainImage from '../LandingPage/Sections/MainImage'
-import {Descriptions, Button} from 'antd'
+import {Descriptions, Button, Row} from 'antd'
+import GridCard from '../LandingPage/Sections/GridCard'
 
 function MovieDetailPage(props) {
 
     const [Movie, setMovie] = useState([])
+
+    const [crews, setCrew] = useState([])
    
     useEffect(() => {
         
@@ -16,7 +19,15 @@ function MovieDetailPage(props) {
         //   console.log(res)
         setMovie(res)
 
-        
+        //fetch Crew
+        fetch(`${API_URL}movie/${movieId}/credits?api_key=${API_KEY}`)
+        .then(res => res.json())
+        .then(res => {
+            // console.log(res)
+            
+        //  setCrew(res.crew)
+         setCrew(res.cast)
+        })
           
       })
 
@@ -55,11 +66,25 @@ function MovieDetailPage(props) {
        <Descriptions.Item label="popularity">{Movie.popularity}</Descriptions.Item>
      </Descriptions>
 
-     <div style={{display:'flex', justifyContent:'center', marginTop:'2rem'}}>
+     <div style={{display:'flex', justifyContent:'center', margin:'2rem'}}>
      <Button>Toggle Actors </Button>
      </div>
 
-
+      {/* Grid Card for crews*/}
+      <Row gutter={[16, 16]}>
+      {crews && crews.map((crew, index) => (
+        // eslint-disable-next-line no-unused-expressions
+        <React.Fragment key={index}>
+        {crew.profile_path &&
+        <GridCard 
+        actor
+        image={`${IMAGE_URL}w500${crew.profile_path}`}
+        />
+        }
+       
+        </React.Fragment>
+      ))}
+     </Row>
       </div>
     </div>
     )
