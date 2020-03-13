@@ -13,17 +13,28 @@ const {Title} = Typography
 function LandingPage() {
 
   const [Movies, setMovies] = useState([])
+  const [currentPage, setCurrentPage] = useState(0)
 
     useEffect(() => {
-
-           fetch(`${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`)
-           .then(res => res.json())
-           .then(res => {
-               console.log(res)
-               setMovies(res.results)
-           })
-           
+           const endPoint =   `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`
+           fetchedMovies(endPoint);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
+
+   const fetchedMovies = path => {
+      fetch(path)
+      .then(res => res.json())
+      .then(res => {
+          console.log(res)
+          setMovies([...Movies, ...res.results])
+          setCurrentPage(res.page)
+      })
+    }
+
+const handleClick = () => {
+  let endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1${currentPage + 1}`
+  fetchedMovies(endpoint)
+}
 
     return (
       <div style={{width:'100%', margin:0 }}>
@@ -59,7 +70,7 @@ function LandingPage() {
        {/* Load More Button*/}
        <br/>
        <div style={{display:'flex', justifyContent:'center'}}>
-       <button onClick>Load More</button>
+       <button onClick={handleClick}>Load More</button>
        </div>
 
 
