@@ -1,7 +1,9 @@
-import React,{useEffect} from 'react'
+import React,{useEffect, useState} from 'react'
 import axios from 'axios'
 
 function Favorite(props) {
+
+    const [favoriteNumber, setFavoriteNumber] = useState(0)
 
     const variable ={
         userFrom :props.userFrom,
@@ -15,7 +17,7 @@ function Favorite(props) {
       axios.post('/api/favorite/favoriteNumber', variable)
       .then(res => {
           if(res.data.success){
-            
+             setFavoriteNumber(res.data.favoriteNumber)
           } else{
               alert('Failed to get favoriteNumber')
           }
